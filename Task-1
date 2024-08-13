@@ -1,0 +1,59 @@
+#include <stdio.h>
+
+#define NUM_QUESTIONS 3
+
+typedef struct {
+    char question[256];
+    char options[4][256];
+    int correct_option;
+} Question;
+
+void ask_question(Question q, int *score) {
+    int user_answer;
+    
+    printf("%s\n", q.question);
+    for (int i = 0; i < 4; i++) {
+        printf("%d. %s\n", i + 1, q.options[i]);
+    }
+
+    printf("Choose the number of your answer: ");
+    scanf("%d", &user_answer);
+
+    if (user_answer == q.correct_option) {
+        printf("Correct!\n");
+        (*score)++;
+    } else {
+        printf("Wrong. The correct answer was: %d. %s\n", q.correct_option, q.options[q.correct_option - 1]);
+    }
+    printf("\n");
+}
+
+int main() {
+    Question questions[NUM_QUESTIONS] = {
+        {
+            "What is the capital of France?",
+            {"Berlin", "Madrid", "Paris", "Rome"},
+            3
+        },
+        {
+            "What is 2 + 2?",
+            {"3", "4", "5", "6"},
+            2
+        },
+        {
+            "Which planet is known as the Red Planet?",
+            {"Earth", "Mars", "Jupiter", "Saturn"},
+            2
+        }
+    };
+
+    int score = 0;
+
+    for (int i = 0; i < NUM_QUESTIONS; i++) {
+        ask_question(questions[i], &score);
+    }
+
+    printf("Quiz completed! Your final score is %d/%d.\n", score, NUM_QUESTIONS);
+
+    return 0;
+}
